@@ -1,0 +1,43 @@
+# Local override files (machine-specific, secrets)
+*.local
+
+# Local directory contents (but keep examples)
+local/*
+!local/*.example
+
+# Claude local settings (but keep the example)
+claude/settings.local.json
+.claude/
+!claude/settings.local.example.json
+
+# Secrets
+*.secret
+*.secrets
+secrets/
+.env
+.env.*
+
+# SSH keys
+id_rsa
+id_ed25519
+*.pem
+*.key
+
+# Shell history and caches
+.bash_history
+.zsh_history
+.lesshst
+.viminfo
+
+# OS junk
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Planning files (session-only)
+task_plan.md
+findings.md
+progress.md
+plans/
