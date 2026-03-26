@@ -5,7 +5,7 @@ Personal configuration files managed with git and symlinks.
 ## Quick Start
 
 ```bash
-git clone <repo-url> ~/.dotfiles
+git clone https://github.com/Astery0502/.dotfiles ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh
 ```

@@ -12,6 +12,7 @@ declare -a LINKS=(
     "bash/.bash_aliases:$HOME/.bash_aliases"
     "vim/.vimrc:$HOME/.vimrc"
     "git/.gitconfig:$HOME/.gitconfig"
+    "claude/CLAUDE.md:$HOME/.claude/CLAUDE.md"
     "claude/settings.json:$HOME/.claude/settings.json"
     "claude/skills/planning-orchestration:$HOME/.claude/skills/planning-orchestration"
     "claude/skills/planning-with-files:$HOME/.claude/skills/planning-with-files"

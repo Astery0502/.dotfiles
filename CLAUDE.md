@@ -66,6 +66,7 @@ ls -la ~/.bashrc ~/.vimrc ~/.gitconfig ~/.claude/settings.json ~/.tmux.conf
 | `bash/.bash_aliases` | `~/.bash_aliases` |
 | `vim/.vimrc` | `~/.vimrc` |
 | `git/.gitconfig` | `~/.gitconfig` |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/settings.json` | `~/.claude/settings.json` |
 | `claude/skills/planning-orchestration` | `~/.claude/skills/planning-orchestration` |
 | `claude/skills/planning-with-files` | `~/.claude/skills/planning-with-files` |
