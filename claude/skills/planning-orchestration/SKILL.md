@@ -49,15 +49,25 @@ task_plan.md Phase N → plans/YYYY-MM-DD-feature/
 ### REQUIRED: Working on a phase (on user demand only)
 Do not start a phase until the user explicitly asks. Work on one phase at a time, never in parallel.
 
-**Step 1 — Study together (iterative loop):** Before writing any plan, resolve open questions iteratively.
+**Step 1 — Study together (iterative loop):** Before writing any plan, align on direction then resolve open questions iteratively.
+
+**1a — Propose approaches (first write to plan file):**
 - Summarize what the phase involves
-- Write current open questions into the plan file, each with your best default answer/assumption
+- Write 2-3 concrete implementation approaches into the plan file, each with trade-offs and a recommendation marked
+- Ask the user only if there is a critical constraint that rules out your recommendation — otherwise let the file speak
+- Wait for the user to pick an approach by editing the file
+
+**1b — Iterative question loop (scoped to chosen approach):**
+- Write current open questions into the plan file, each with your best default answer/assumption, scoped to the chosen approach
 - Ask the user only the single most critical question that has no reasonable default — or nothing if all have defaults
 - Wait for the user to review and edit the plan file (confirming, changing, or overriding defaults)
 - Re-read the file, remove resolved questions, and surface any follow-up questions that only now become relevant (chained questions appear only after their parent is resolved)
 - Repeat until no open questions remain
-- When the loop is complete, remove all question scaffolding and replace with one comprehensive **Decisions** summary capturing all resolved answers
-- Do NOT invoke `writing-plans` until the loop is complete
+
+**1c — Finalize:**
+- Remove all approach options and question scaffolding
+- Replace with one comprehensive **Decisions** summary capturing the chosen approach and all resolved answers
+- Do NOT invoke `writing-plans` until this is done
 
 **Step 2 — Plan the phase:**
 **REQUIRED SUB-SKILL:** Once the study is complete, invoke `superpowers:writing-plans` scoped to this phase only.
@@ -75,8 +85,20 @@ Do not start a phase until the user explicitly asks. Work on one phase at a time
 1. Mark phase `in_progress` in task_plan.md
 2. Follow the implementation plan step-by-step (checkboxes), one step at a time
 3. Log all discoveries and errors in findings.md — not in the implementation plan
-4. Mark phase `complete` in task_plan.md when done
+4. Mark phase `**Status:** complete` in task_plan.md when done
 5. **Stop. Wait for the user to ask to begin the next phase.**
+
+### REQUIRED: Archiving a completed task (all phases done)
+
+When the user confirms all phases are complete, perform the archive step before stopping.
+
+**Step 4 — Archive:**
+1. Verify every `## Phase` section in task_plan.md has `**Status:** complete` on the line immediately after the heading. If any phase is incomplete, refuse and list the incomplete phases by name.
+2. Derive task name: read the `## Overview` section (or first non-empty line if absent). Strip punctuation, remove stop words (a, an, the, and, or, for, to, of), take first 1–4 remaining words, lowercase, hyphenated. If zero words remain, use `task`.
+3. Create `plans/archive/YYYY-MM-DD-<task-name>/` using today's date (create `plans/archive/` if it doesn't exist; append `-2`, `-3` on name collision).
+4. Move `task_plan.md` and `progress.md` into the archive folder. Move `findings.md` if it exists (skip silently if absent).
+5. Move all `plans/*.md` files (directly under `plans/`, not recursive) into the archive folder.
+6. Inform the user: task archived to `plans/archive/<folder-name>/`, root is clean and ready for the next task.
 
 ## Red Flags — You Are Doing It Wrong
 
