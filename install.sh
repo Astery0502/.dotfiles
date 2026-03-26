@@ -55,6 +55,47 @@ create_symlink() {
     echo "  linked: $target -> $src"
 }
 
+if ! command -v uv &>/dev/null; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    echo "  uv installed"
+else
+    echo "uv already installed: $(uv --version)"
+fi
+
+if ! command -v gh &>/dev/null; then
+    echo "Installing gh (GitHub CLI)..."
+    if command -v brew &>/dev/null; then
+        brew install gh
+    else
+        # Universal binary install — no sudo, no package manager required
+        _gh_os="$(uname -s | tr '[:upper:]' '[:lower:]')"
+        _gh_arch="$(uname -m)"
+        case "$_gh_arch" in
+            x86_64)  _gh_arch="amd64" ;;
+            aarch64|arm64) _gh_arch="arm64" ;;
+            *) echo "  WARNING: unsupported arch $_gh_arch, skipping gh install"; _gh_arch="" ;;
+        esac
+        if [ -n "$_gh_arch" ]; then
+            _gh_ver="$(curl -fsSL https://api.github.com/repos/cli/cli/releases/latest | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+            _gh_url="https://github.com/cli/cli/releases/download/v${_gh_ver}/gh_${_gh_ver}_${_gh_os}_${_gh_arch}.tar.gz"
+            mkdir -p "$HOME/.local/bin"
+            curl -fsSL "$_gh_url" | tar -xz -C /tmp
+            mv "/tmp/gh_${_gh_ver}_${_gh_os}_${_gh_arch}/bin/gh" "$HOME/.local/bin/gh"
+            echo "  gh ${_gh_ver} installed to ~/.local/bin/gh"
+            if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+                echo 'export PATH="$PATH:$HOME/.local/bin"' >> "$HOME/.bashrc.local"
+                echo "  Added ~/.local/bin to PATH in ~/.bashrc.local"
+            fi
+        fi
+    fi
+else
+    echo "gh already installed: $(gh --version | head -1)"
+fi
+if ! gh auth status &>/dev/null; then
+    echo "  NOTE: run 'gh auth login' to authenticate with GitHub"
+fi
+
 if ! command -v claude &>/dev/null; then
     echo "WARNING: 'claude' CLI not found."
     echo "  Install it with:"
