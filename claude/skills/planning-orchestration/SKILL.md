@@ -49,10 +49,15 @@ task_plan.md Phase N → plans/YYYY-MM-DD-feature/
 ### REQUIRED: Working on a phase (on user demand only)
 Do not start a phase until the user explicitly asks. Work on one phase at a time, never in parallel.
 
-**Step 1 — Study together:** Before writing any plan, discuss the phase with the user.
-- Summarize what the phase involves and any open questions
-- Ask clarifying questions one at a time until you both have a shared understanding
-- Do NOT invoke `writing-plans` yet
+**Step 1 — Study together (iterative loop):** Before writing any plan, resolve open questions iteratively.
+- Summarize what the phase involves
+- Write current open questions into the plan file, each with your best default answer/assumption
+- Ask the user only the single most critical question that has no reasonable default — or nothing if all have defaults
+- Wait for the user to review and edit the plan file (confirming, changing, or overriding defaults)
+- Re-read the file, remove resolved questions, and surface any follow-up questions that only now become relevant (chained questions appear only after their parent is resolved)
+- Repeat until no open questions remain
+- When the loop is complete, remove all question scaffolding and replace with one comprehensive **Decisions** summary capturing all resolved answers
+- Do NOT invoke `writing-plans` until the loop is complete
 
 **Step 2 — Plan the phase:**
 **REQUIRED SUB-SKILL:** Once the study is complete, invoke `superpowers:writing-plans` scoped to this phase only.
