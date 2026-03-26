@@ -8,10 +8,10 @@ This is a personal dotfiles repository. It stores shared shell/editor/tool confi
 bash/          → .bashrc, .bash_profile, .bash_aliases (shared versions)
 vim/           → .vimrc (shared version)
 git/           → .gitconfig (shared, includes local override via [include])
-claude/        → settings.json (shared Claude Code settings)
+claude/        → settings.json, CLAUDE.md, skills.list, skills/ (shared Claude Code config)
 tmux/          → .tmux.conf (shared)
 local/         → *.example templates for machine-specific overrides
-install.sh     → Creates symlinks and backs up existing files
+install.sh     → Creates symlinks, downloads remote skills, installs plugins
 ```
 
 ## Setup Workflow
@@ -68,9 +68,24 @@ ls -la ~/.bashrc ~/.vimrc ~/.gitconfig ~/.claude/settings.json ~/.tmux.conf
 | `git/.gitconfig` | `~/.gitconfig` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/settings.json` | `~/.claude/settings.json` |
-| `claude/skills/planning-orchestration` | `~/.claude/skills/planning-orchestration` |
-| `claude/skills/planning-with-files` | `~/.claude/skills/planning-with-files` |
 | `tmux/.tmux.conf` | `~/.tmux.conf` |
+| *(via skills.list)* | `~/.claude/skills/*` |
+
+## Claude Code Skills
+
+Skills are declared in **`claude/skills.list`** and processed by `install.sh`:
+
+- **Local skills** (stored in `claude/skills/`) are symlinked to `~/.claude/skills/`
+- **Remote skills** (GitHub URLs) are `git clone`d directly to `~/.claude/skills/` and updated on re-runs
+
+To add a skill, append a line to `claude/skills.list`:
+```
+# Local (store the skill dir in claude/skills/ first):
+my-skill
+
+# Remote (cloned automatically):
+my-skill https://github.com/owner/my-skill
+```
 
 ## Claude Code Plugins
 

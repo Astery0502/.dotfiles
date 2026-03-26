@@ -9,7 +9,6 @@
       "Read(~/.zshrc)"
     ],
     "deny": [
-      "Bash(curl:*)",
       "Read(./secrets/**)"
     ],
     "defaultMode": "bypassPermissions"

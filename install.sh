@@ -14,8 +14,6 @@ declare -a LINKS=(
     "git/.gitconfig:$HOME/.gitconfig"
     "claude/CLAUDE.md:$HOME/.claude/CLAUDE.md"
     "claude/settings.json:$HOME/.claude/settings.json"
-    "claude/skills/planning-orchestration:$HOME/.claude/skills/planning-orchestration"
-    "claude/skills/planning-with-files:$HOME/.claude/skills/planning-with-files"
     "tmux/.tmux.conf:$HOME/.tmux.conf"
 )
 
@@ -57,6 +55,14 @@ create_symlink() {
     echo "  linked: $target -> $src"
 }
 
+if ! command -v claude &>/dev/null; then
+    echo "WARNING: 'claude' CLI not found."
+    echo "  Install it with:"
+    echo "    curl -fsSL https://claude.ai/install.sh | bash"
+    echo "  Then re-run this script."
+    exit 1
+fi
+
 echo "=== dotfiles install ==="
 echo "Source: $DOTFILES_DIR"
 echo ""
@@ -83,15 +89,57 @@ else
 fi
 
 echo ""
-echo "Installing Claude Code plugins..."
-# Add more plugins here as needed
-declare -a PLUGINS=(
-    "superpowers@claude-plugins-official"
-)
+echo "Installing Claude Code skills..."
+SKILLS_LIST="$DOTFILES_DIR/claude/skills.list"
+if [ -f "$SKILLS_LIST" ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+        # Skip blank lines and comments
+        [[ "$line" =~ ^[[:space:]]*$ || "$line" =~ ^[[:space:]]*# ]] && continue
 
-if command -v claude &>/dev/null; then
+        skill_name="${line%% *}"
+        skill_url="${line#* }"
+        [ "$skill_url" = "$skill_name" ] && skill_url=""  # no URL = local skill
+
+        if [[ "$skill_name" == plugin:* ]]; then
+            # Handled in plugin install phase below
+            continue
+        elif [ -n "$skill_url" ]; then
+            # Remote skill: git-clone directly to ~/.claude/skills/
+            skill_target="$HOME/.claude/skills/$skill_name"
+            mkdir -p "$HOME/.claude/skills"
+            if [ -d "$skill_target/.git" ]; then
+                echo "  updating: $skill_name"
+                git -C "$skill_target" pull --ff-only -q
+            elif [ -e "$skill_target" ]; then
+                echo "  already present (non-git): $skill_name"
+            else
+                echo "  cloning: $skill_name from $skill_url"
+                git clone --depth 1 -q "$skill_url" "$skill_target"
+            fi
+        else
+            # Local skill: symlink from claude/skills/ into ~/.claude/skills/
+            skill_src="$DOTFILES_DIR/claude/skills/$skill_name"
+            skill_target="$HOME/.claude/skills/$skill_name"
+            if [ ! -e "$skill_src" ]; then
+                echo "  SKIP (missing local skill): $skill_name"
+                continue
+            fi
+            create_symlink "$skill_src" "$skill_target"
+        fi
+    done < "$SKILLS_LIST"
+else
+    echo "  SKIP: claude/skills.list not found"
+fi
+
+echo ""
+echo "Installing Claude Code plugins..."
+if [ -f "$SKILLS_LIST" ]; then
     installed_plugins="$(claude plugins list 2>/dev/null)"
-    for plugin in "${PLUGINS[@]}"; do
+    while IFS= read -r line || [ -n "$line" ]; do
+        [[ "$line" =~ ^[[:space:]]*$ || "$line" =~ ^[[:space:]]*# ]] && continue
+        [[ "${line%% *}" != plugin:* ]] && continue
+
+        plugin="${line#plugin:}"
         plugin_name="${plugin%%@*}"
         if echo "$installed_plugins" | grep -q "$plugin_name"; then
             echo "  already installed: $plugin"
@@ -99,9 +147,7 @@ if command -v claude &>/dev/null; then
             echo "  installing: $plugin"
             claude plugins install "$plugin"
         fi
-    done
-else
-    echo "  SKIP: 'claude' CLI not found, skipping plugin install"
+    done < "$SKILLS_LIST"
 fi
 
 echo ""
