@@ -1,6 +1,7 @@
 # Global Claude Code Instructions
 
-## Planning Workflow
+## Planning Skills
 
-Use `planning-orchestration` skill when starting any complex multi-step task.
-It defines the two-layer model (planning-with-files + writing-plans) and the file-vs-directory hierarchy for implementation plans.
+The `planning-orchestration` skill requires **explicit invocation** — it will NOT activate automatically based on task complexity. Trigger it only when the user directly requests it (e.g. "use planning-orchestration", "/planning-orchestration").
+
+The `superpowers:brainstorming` skill also requires **explicit invocation** — do NOT auto-trigger it before creative or implementation tasks.

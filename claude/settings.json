@@ -1,11 +1,4 @@
 {
-  "mcpServers": {
-    "markitdown": {
-      "command": "uvx",
-      "args": ["markitdown-mcp"],
-      "type": "stdio"
-    }
-  },
   "env": {
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },
@@ -20,8 +13,17 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "skipDangerousModePermissionPrompt": true,
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "mcpServers": {
+    "markitdown": {
+      "command": "uvx",
+      "args": [
+        "markitdown-mcp"
+      ],
+      "type": "stdio"
+    }
   }
 }
