@@ -31,9 +31,9 @@
 
 # --- Secrets ---
 # Source private environment variables (API keys, tokens, etc.)
-# if [ -f ~/.config/secrets/packy.env ]; then
-#     source ~/.config/secrets/packy.env
-# fi
+if [ -f ~/.config/secrets/packy.env ]; then
+    source ~/.config/secrets/packy.env
+fi
 
 # --- Homebrew (macOS) ---
 # eval "$(/usr/local/bin/brew shellenv)"

@@ -192,8 +192,16 @@ if [ -f "$SKILLS_LIST" ]; then
 fi
 
 echo ""
-echo "Done. Local override files to create manually:"
-echo "  ~/.bashrc.local          (see local/.bashrc.local.example)"
+echo "Bootstrapping local override files..."
+if [ ! -f "$HOME/.bashrc.local" ]; then
+    cp "$DOTFILES_DIR/local/.bashrc.local.example" "$HOME/.bashrc.local"
+    echo "  created: ~/.bashrc.local (edit to customize)"
+else
+    echo "  already exists: ~/.bashrc.local (skipped)"
+fi
+
+echo ""
+echo "Done. Other local override files to create manually:"
 echo "  ~/.vimrc.local           (see local/.vimrc.local.example)"
 echo "  ~/.gitconfig.local       (for machine-specific git config)"
 echo "  ~/.claude/settings.local.json (see claude/settings.local.example.json)"
