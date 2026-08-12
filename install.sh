@@ -305,23 +305,6 @@ print_report() {
         done
     fi
 
-    [ "$MODE" = install ] || return 0
-    cat <<'EOF'
-
-Optional Codex skill packages (not run):
-  Matt Pocock skills (upstream interactive installer, global scope):
-  npx skills@latest add mattpocock/skills -g
-  Select only: grilling, grill-me, handoff, teach, to-spec, to-tickets, and writing-great-skills.
-  Of these, grilling is model-invoked; the other six are user-invoked.
-  Without setup-matt-pocock-skills, give to-spec and to-tickets an explicit publication destination when invoking them.
-
-  Update the selected Matt Pocock skills:
-  npx skills@latest update -g grilling grill-me handoff teach to-spec to-tickets writing-great-skills
-
-  Asterism skills:
-  npx skills@latest add Astery0502/asterism
-  These commands inherit HTTP_PROXY and HTTPS_PROXY from your environment.
-EOF
 }
 
 if [ "$MODE" = uninstall ]; then

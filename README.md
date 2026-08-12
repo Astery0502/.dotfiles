@@ -19,7 +19,7 @@ Preview changes or remove managed integration with:
 ./install.sh --uninstall
 ```
 
-After a successful install or dry run, the final report lists managed changes or planned dry-run operations and prints optional skill installation and update commands. For `mattpocock/skills`, it uses the upstream interactive installer in global scope and selects only `grilling`, `grill-me`, `handoff`, `teach`, `to-spec`, `to-tickets`, and `writing-great-skills`. `grilling` is model-invoked; the other six are user-invoked. Because this selection omits `setup-matt-pocock-skills`, give `to-spec` and `to-tickets` an explicit publication destination when invoking them. The named update command refreshes only this selected set directly from Matt's repository, so removed skills are not reinstalled. The report also includes the interactive `Astery0502/asterism` command. The installer does not run these commands or access the network. If needed, set `HTTP_PROXY` and `HTTPS_PROXY` in the invoking environment before running a suggested command.
+After a successful install or dry run, the final report lists managed changes or planned dry-run operations.
 
 ## Structure
 
@@ -65,8 +65,6 @@ Do not commit secrets, credentials, private endpoints, or machine-specific paths
 | tmux | `config/terminals/tmux/**/*.conf` | `~/.tmux.conf` | `source-file` |
 | Git | `config/development/git/**/*.gitconfig` | `~/.gitconfig` | `[include]` |
 | Ghostty (macOS) | `config/applications/ghostty/**/*.ghostty` | `~/.config/ghostty/config` | `config-file` |
-
-Claude's JSON settings do not support includes. `config/applications/claude/settings.json` is retained as a reference and is not installed, copied, linked, or merged.
 
 ## Adding Configuration
 
